@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Portfolio - Softmark Tech</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+            font-size: 24px;
+        }
+        
+        .navbar-brand span {
+            color: var(--secondary-color);
+        }
+        
+        .nav-link {
+            color: var(--dark-color) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+        }
+        
+        .nav-link.active {
+            color: var(--secondary-color) !important;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--secondary-color);
+        }
+        
+        .page-header {
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80') no-repeat center center/cover;
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+        
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .breadcrumb {
+            justify-content: center;
+            background: transparent;
+            padding: 0;
+        }
+        
+        .breadcrumb-item a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item.active {
+            color: white;
+        }
+        
+        .breadcrumb-item+.breadcrumb-item::before {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--secondary-color);
+        }
+        
+        .section-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+        
+        .portfolio-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 20px;
+            margin: 5px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 30px;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .portfolio-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.5s;
+        }
+        
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(52, 152, 219, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+        
+        .portfolio-item:hover .portfolio-img {
+            transform: scale(1.1);
+        }
+        
+        .portfolio-info {
+            color: white;
+        }
+        
+        .portfolio-info h4 {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .portfolio-info p {
+            margin-bottom: 20px;
+        }
+        
+        .portfolio-modal .modal-dialog {
+            max-width: 900px;
+        }
+        
+        .portfolio-modal .modal-content {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .portfolio-modal .modal-header {
+            border: none;
+            padding: 0;
+            position: relative;
+        }
+        
+        .portfolio-modal .modal-header .btn-close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            z-index: 1;
+            background: white;
+            opacity: 1;
+            padding: 10px;
+            border-radius: 50%;
+        }
+        
+        .portfolio-modal-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        
+        .portfolio-modal .modal-body {
+            padding: 30px;
+        }
+        
+        .portfolio-modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .portfolio-modal-subtitle {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .portfolio-details {
+            margin-bottom: 30px;
+        }
+        
+        .portfolio-details-item {
+            margin-bottom: 15px;
+        }
+        
+        .portfolio-details-item strong {
+            display: inline-block;
+            width: 120px;
+        }
+        
+        .testimonial-section {
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80') no-repeat center center/cover;
+            color: white;
+            padding: 100px 0;
+        }
+        
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .client-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .client-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .client-position {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .client-rating {
+            color: #f39c12;
+            margin-bottom: 15px;
+        }
+        
+        .client-review {
+            font-style: italic;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .cta-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cta-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 70px 0 20px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary-color);
+        }
+        
+        .footer-about {
+            margin-bottom: 20px;
+        }
+        
+        .footer-links h5 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .footer-links h5::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--secondary-color);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary-color);
+            padding-left: 5px;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            font-size: 20px;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+            
+            .section {
+                padding: 70px 0;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .portfolio-modal-img {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-code me-2"></i>Soft<span>mark</span> Tech
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="portfolio.html">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Our Portfolio</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Portfolio</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">Our Recent Work</h2>
+                    <p class="section-subtitle">Explore some of our recent projects and see how we've helped our clients achieve their goals.</p>
+                </div>
+            </div>
+            
+            <div class="portfolio-filter">
+                <button class="filter-btn active" data-filter="*">All Projects</button>
+                <button class="filter-btn" data-filter=".web">Web Applications</button>
+                <button class="filter-btn" data-filter=".windows">Windows Apps</button>
+                <button class="filter-btn" data-filter=".management">Management Systems</button>
+                <button class="filter-btn" data-filter=".ecommerce">E-Commerce</button>
+            </div>
+            
+            <div class="row portfolio-container">
+                <!-- Portfolio Item 1 -->
+                <div class="col-md-6 col-lg-4 portfolio-item web">
+                    <div class="portfolio-inner">
+                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80" alt="Project 1" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-info">
+                                <h4>E-Commerce Platform</h4>
+                                <p>A custom online store with inventory management and payment integration.</p>
+                                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#portfolioModal1">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 2 -->
+                <div class="col-md-6 col-lg-4 portfolio-item windows">
+                    <div class="portfolio-inner">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Project 2" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-info">
+                                <h4>Hospital Management</h4>
+                                <p>Windows application for patient records and appointment scheduling.</p>
+                                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#portfolioModal2">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 3 -->
+                <div class="col-md-6 col-lg-4 portfolio-item management">
+                    <div class="portfolio-inner">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80" alt="Project 3" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-info">
+                                <h4>School ERP System</h4>
+                                <p>Complete educational institution management solution.</p>
+                                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#portfolioModal3">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 4 -->
+                <div class="col-md-6 col-lg-4 portfolio-item ecommerce">
+                    <div class="portfolio-inner">
+                        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" alt="Project 4" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-info">
+                                <h4>Inventory Management</h4>
+                                <p>Custom solution for retail business inventory tracking.</p>
+                                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#portfolioModal4">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 5 -->
+                <div class="col-md-6 col-lg-4 portfolio-item web">
+                    <div class="portfolio-inner">
+                        <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Project 5" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-info">
+                                <h4>CRM Solution</h4>
+                                <p>Customer relationship management platform.</p>
+                                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#portfolioModal5">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 6 -->
+                <div class="col-md-6 col-lg-4 portfolio-item management">
+                    <div class="portfolio-inner">
+                        <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Project 6" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-info">
+                                <h4>Custom CMS</h4>
+                                <p>Content management system for publishers.</p>
+                                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#portfolioModal6">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="#" class="btn btn-primary">Load More Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="testimonial-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center mb-5">
+                    <h2 class="section-title text-white">Client Testimonials</h2>
+                    <p class="section-subtitle text-white-50">What our clients say about working with us.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Client" class="client-img">
+                        <h5 class="client-name">Sarah Johnson</h5>
+                        <p class="client-position">CEO, TechSolutions Inc.</p>
+                        <div class="client-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="client-review">"Softmark Tech transformed our outdated systems into a modern, efficient platform. Their team was professional, responsive, and delivered beyond our expectations."</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Client" class="client-img">
+                        <h5 class="client-name">Michael Chen</h5>
+                        <p class="client-position">Director, Global Retail</p>
+                        <div class="client-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="client-review">"The inventory management system they built for us has saved countless hours of manual work. Their support team is always available when we need assistance."</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Client" class="client-img">
+                        <h5 class="client-name">Emily Rodriguez</h5>
+                        <p class="client-position">Principal, Greenfield Academy</p>
+                        <div class="client-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="client-review">"Our school's ERP system has revolutionized how we manage student data. Softmark Tech understood our unique needs and delivered a perfect solution."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Have a Project in Mind?</h2>
+            <p class="cta-text">Let's discuss how we can help you bring your ideas to life with our technology solutions.</p>
+            <a href="contact.html" class="btn btn-light btn-lg">Get In Touch</a>
+        </div>
+    </section>
+
+    <!-- Portfolio Modals -->
+    <!-- Modal 1 -->
+    <div class="modal fade portfolio-modal" id="portfolioModal1" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80" alt="Project 1" class="portfolio-modal-img">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h3 class="portfolio-modal-title">E-Commerce Platform</h3>
+                    <p class="portfolio-modal-subtitle">Custom online store with inventory management</p>
+                    <p>We developed a comprehensive e-commerce platform for a retail client looking to expand their business online. The solution included product management, shopping cart functionality, secure payment processing, and integration with their existing inventory system.</p>
+                    
+                    <div class="portfolio-details">
+                        <div class="portfolio-details-item">
+                            <strong>Client:</strong> FashionHub Retail
+                        </div>
+                        <div class="portfolio-details-item">
+                            <strong>Category:</strong> Web Application, E-Commerce
+                        </div>
+                        <div class="portfolio-details-item">
+                            <strong>Technologies:</strong> React, Node.js, MongoDB, Stripe API
+                        </div>
+                        <div class="portfolio-details-item">
+                            <strong>Date:</strong> January 2023
+                        </div>
+                    </div>
+                    
+                    <h4>Project Highlights</h4>
+                    <ul>
+                        <li>Mobile-responsive design with intuitive user interface</li>
+                        <li>Real-time inventory synchronization</li>
+                        <li>Multi-payment gateway integration</li>
+                        <li>Advanced analytics dashboard</li>
+                        <li>SEO optimization for better visibility</li>
+                    </ul>
+                    
+                    <a href="#" class="btn btn-primary mt-3">Visit Website</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal 2 -->
+    <div class="modal fade portfolio-modal" id="portfolioModal2" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Project 2" class="portfolio-modal-img">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h3 class="portfolio-modal-title">Hospital Management System</h3>
+                    <p class="portfolio-modal-subtitle">Windows application for healthcare providers</p>
+                    <p>Our team developed a custom Windows application for a regional hospital network to streamline patient management, appointment scheduling, and medical records. The solution replaced their outdated paper-based system with a secure digital platform.</p>
+                    
+                    <div class="portfolio-details">
+                        <div class="portfolio-details-item">
+                            <strong>Client:</strong> CityMed Healthcare
+                        </div>
+                        <div class="portfolio-details-item">
+                            <strong>Category:</strong> Windows Application
+                        </div>
+                        <div class="portfolio-details-item">
+                            <strong>Technologies:</strong> C#, .NET, SQL Server
+                        </div>
+                        <div class="portfolio-details-item">
+                            <strong>Date:</strong> August 2022
+                        </div>
+                    </div>
+                    
+                    <h4>Project Highlights</h4>
+                    <ul>
+                        <li>HIPAA-compliant data security</li>
+                        <li>Multi-location support</li>
+                        <li>Automated appointment reminders</li>
+                        <li>Integration with medical devices</li>
+                        <li>Custom reporting module</li>
+                    </ul>
+                    
+                    <a href="#" class="btn btn-primary mt-3">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <a href="index.html" class="footer-logo">
+                        <i class="fas fa-code me-2"></i>Soft<span>mark</span> Tech
+                    </a>
+                    <p class="footer-about">Providing innovative IT solutions and digital services to help businesses thrive in the modern digital landscape.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <div class="footer-links">
+                        <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="services.html">Services</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="portfolio.html">Portfolio</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <div class="footer-links">
+                        <h5>Services</h5>
+                        <ul>
+                            <li><a href="services.html">Web Hosting</a></li>
+                            <li><a href="services.html">Web Apps</a></li>
+                            <li><a href="services.html">System Management</a></li>
+                            <li><a href="services.html">Windows Apps</a></li>
+                            <li><a href="services.html">Management Systems</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-links">
+                        <h5>Contact Info</h5>
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt me-2"></i> 123 Tech Park, Silicon Valley, CA 94025</li>
+                            <li><i class="fas fa-phone-alt me-2"></i> +1 (555) 123-4567</li>
+                            <li><i class="fas fa-envelope me-2"></i> info@softmarktech.com</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row footer-bottom">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2023 Softmark Tech. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">
+                        <a href="#" class="text-white-50 me-3">Privacy Policy</a>
+                        <a href="#" class="text-white-50">Terms of Service</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Isotope JS for filtering -->
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        // Back to Top Button
+        window.addEventListener('scroll', function() {
+            var backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Active nav link based on current page
+        const currentPage = window.location.pathname.split('/').pop();
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+        
+        // Portfolio filtering
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const portfolioContainer = document.querySelector('.portfolio-container');
+            
+            // Initialize Isotope
+            const iso = new Isotope(portfolioContainer, {
+                itemSelector: '.portfolio-item',
+                layoutMode: 'fitRows'
+            });
+            
+            // Filter button click event
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const filterValue = this.getAttribute('data-filter');
+                    iso.arrange({
+                        filter: filterValue
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
